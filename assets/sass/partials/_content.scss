@@ -1,2 +1,280 @@
 //Main content stylesheet
-body{ background: navajowhite; }
+$lightBlue: #00a2e0;
+$darkBlue: #254969;
+
+html, body{
+  height: 100%;
+  min-height: 100%;
+}
+
+body{
+  color: #ddd;
+  background-color: $darkBlue;
+  font-family: $helvetica;
+  background: url(../img/bg.svg) no-repeat center center;
+  background-size: cover;
+  background-color: $darkBlue;
+	font-size: .8125em;
+	text-align: center;
+	border-top: 5px solid $lightBlue;
+  
+  @media all and (min-width: 500px){
+		font-size: 1em;
+  }
+
+  .vendor-ie &{
+    background: url(../img/bg.jpg) repeat center center;
+    background-size: auto;
+  }
+}
+
+.container{
+	width: 90%;
+  max-width: 62.5em;
+  display: block;
+  margin: 0 auto;
+  padding: 3em 0;
+  @include clearfix;
+}
+
+@media all and (min-width: 950px){
+	.container{ padding: 3em 5em; }
+}
+
+h1{
+  font-weight: normal;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h2{
+  font-weight: normal;
+  font-family: 'Montserrat', sans-serif;
+  margin: .666666667em 0;
+}
+
+p{
+  font-size: 1.15em;
+  line-height: 1.5;
+}
+
+a{
+  color: darken(#ddd, 20%);
+  @include transition-property (color);
+  @include transition-duration(.25s);
+  
+  &:hover{
+    color: #ddd;
+  }
+}
+
+.profileWrap{
+  width: 12em;
+  height: 12em;
+  overflow: hidden;
+  display: block;
+  margin: 0 auto;
+  border: 3px solid $lightBlue;
+  border-radius: 50%;
+  position: relative;
+  background: #ececec;
+  
+  img{
+    max-width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.hero{
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+.content{
+  max-width: 50rem;
+  margin: 0 auto;
+  border: 1px dotted $lightBlue;
+  border-left: 0;
+  border-right: 0;
+}
+
+.contact{
+  max-width: 50rem;
+  margin: 0 auto;
+  border-bottom: 1px dotted $lightBlue;
+
+  ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto 1em;
+  }
+
+  li{
+    margin: 0;
+    padding: 0;
+    display: block;
+    margin: 0 2% 2%;
+    font-size: 1em;
+
+    @media all and (min-width: 600px){
+			display: inline-block;
+    	width: 49%;
+    	margin: 0 1% 2% 0;
+    	text-align: left;
+    
+    	&:nth-child(2n){ margin-right: 0; }
+    }
+  }
+  
+  a{
+    padding: .5em 1em;
+    display: block;
+    border: 1px solid $lightBlue;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #ddd;
+    @include transition-property (background);
+		@include transition-duration(.25s);
+    font-family: 'Montserrat', sans-serif;
+    
+    &:hover{
+      background-color: rgba(255,255,255,.25);
+    }
+  }
+}
+
+.details{
+  max-width: 50rem;
+  margin: 0 auto;
+  border-bottom: 1px dotted $lightBlue;
+}
+
+@font-face {
+	font-family: 'icon';	src:url('../fonts/icon.eot');	src:url('../fonts/icon.eot#iefix') format('embedded-opentype'),	url('../fonts/icon.ttf') format('truetype'),	url('../fonts/icon.woff') format('woff'),	url('../fonts/icon.svg#adhd') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^='icon'] {
+	font-family: 'adhd';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-twitter:before {
+  margin-right: 5px;
+  font-family: 'icon';
+	content: "\74";
+}
+.icon-github:before {
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\67";
+}
+.icon-linkedin:before {
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\6c";
+}
+.icon-dribbble:before {
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\64";
+}
+.icon-behance:before {
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\62";
+}
+.icon-email:before {
+	content: "\65";
+  margin-right: 5px;
+  font-family: 'icon';
+}
+
+/*
+==============================================
+bigEntrance
+==============================================
+H/T http://www.justinaguilar.com/animations/
+*/
+
+
+.bigEntrance{
+	animation-name: bigEntrance;
+	-webkit-animation-name: bigEntrance;	
+
+	animation-duration: 1.6s;	
+	-webkit-animation-duration: 1.6s;
+
+	animation-timing-function: ease-out;	
+	-webkit-animation-timing-function: ease-out;	
+
+	visibility: visible !important;			
+}
+
+@keyframes bigEntrance {
+	0% {
+		transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%);
+		opacity: 0.2;
+	}
+	30% {
+		transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%);		
+		opacity: 1;
+	}
+	45% {
+		transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%);
+		opacity: 1;
+	}
+	60% {
+		transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%);		
+		opacity: 1;
+	}	
+	75% {
+		transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%);
+		opacity: 1;
+	}
+	90% {
+		transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%);		
+		opacity: 1;
+	}	
+	100% {
+		transform: scale(1) rotate(0deg) translateX(0%) translateY(0%);
+		opacity: 1;
+	}		
+}
+
+@-webkit-keyframes bigEntrance {
+	0% {
+		-webkit-transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%);
+		opacity: 0.2;
+	}
+	30% {
+		-webkit-transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%);		
+		opacity: 1;
+	}
+	45% {
+		-webkit-transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%);
+		opacity: 1;
+	}
+	60% {
+		-webkit-transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%);		
+		opacity: 1;
+	}	
+	75% {
+		-webkit-transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%);
+		opacity: 1;
+	}
+	90% {
+		-webkit-transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%);		
+		opacity: 1;
+	}	
+	100% {
+		-webkit-transform: scale(1) rotate(0deg) translateX(0%) translateY(0%);
+		opacity: 1;
+	}				
+}
