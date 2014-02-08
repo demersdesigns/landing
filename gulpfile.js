@@ -27,6 +27,7 @@ gulp.task('build', function(){
       .pipe(jshint())
       .pipe(jshint.reporter(stylish))
       .pipe(concat('all.min.js'))
+      .pipe(uglify())
       .pipe(gulp.dest(scriptDist))
       .pipe(wait(100))
       .pipe(livereload(server));
@@ -56,7 +57,7 @@ gulp.task('build', function(){
 
   gulp.src(sassFiles)
       .pipe(concat('style.min.scss'))
-      .pipe(sass({outputStyle: 'nested'}))
+      .pipe(sass({outputStyle: 'compressed'}))
       .pipe(gulp.dest('./css'))
       .pipe(wait(100))
       .pipe(livereload(server));
