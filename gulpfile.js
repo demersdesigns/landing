@@ -21,7 +21,7 @@ gulp.task('build', function(){
  
   // { concat, minify & jshint }
   var scriptFiles = './assets/js/**/*.js';
-  var scriptDist = './js';
+  var scriptDist = './public/js';
   
   gulp.src(scriptFiles)
       .pipe(jshint())
@@ -34,7 +34,7 @@ gulp.task('build', function(){
 
   // { image optimizer }
   var imageFiles = './assets/img/**/*';
-  var imageDist = './img';
+  var imageDist = './public/img';
   gulp.src(imageFiles)
         .pipe(imagemin({ cache: true }))
         .pipe(gulp.dest(imageDist))
@@ -43,7 +43,7 @@ gulp.task('build', function(){
 
   // { html }
   var includes = './assets/html/**/*.html';
-  var includesDist = './';
+  var includesDist = './public/';
 
   gulp.src(includes)
     .pipe(include())
@@ -53,12 +53,12 @@ gulp.task('build', function(){
 
   // { sass }
   var sassFiles = './assets/sass/style.scss';
-  var sassDist = './css';
+  var sassDist = './public/css';
 
   gulp.src(sassFiles)
       .pipe(concat('style.min.scss'))
       .pipe(sass({outputStyle: 'compressed'}))
-      .pipe(gulp.dest('./css'))
+      .pipe(gulp.dest('./public/css'))
       .pipe(wait(100))
       .pipe(livereload(server));
 });
