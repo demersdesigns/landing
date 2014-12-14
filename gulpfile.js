@@ -1,87 +1,91 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var stylish = require('jshint-stylish');
-
-//plugins
-var concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
-    jshint = require('gulp-jshint'),
+var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    minifyHtml = require('gulp-minify-html'),
+    autoprefix = require('gulp-autoprefixer'),
+    minifyCSS = require('gulp-minify-css'),
+    stylish = require('jshint-stylish'),
+    jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
+    concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
-    map = require('map-stream'),
-    livereload = require('gulp-livereload'),
     include = require('gulp-include'),
+    rename = require('gulp-rename'),
+    cache = require('gulp-cache'),
     wait = require('gulp-wait'),
-    lr = require('tiny-lr'),
-    server = lr();
+    notify = require('gulp-notify'),
+    browserSync = require('browser-sync'),
+    reload      = browserSync.reload;
 
-// tasks
-gulp.task('build', function(){
- 
-  // { concat, minify & jshint }
-  var scriptFiles = './assets/js/**/*.js';
-  var scriptDist = './public/js';
-  
-  gulp.src(scriptFiles)
-      .pipe(jshint())
-      .pipe(jshint.reporter(stylish))
-      .pipe(concat('all.min.js'))
-      .pipe(uglify())
-      .pipe(gulp.dest(scriptDist))
-      .pipe(wait(100))
-      .pipe(livereload(server));
+//Vars for file locations and output destinations
+var cssSrc = 'assets/sass/**/*.scss',
+    cssDist = 'public/css',
+    incSrc = 'assets/inc/**/*.inc',
+    htmlSrc = 'assets/html/**/*.html',
+    htmlDist = 'dist',
+    imageSrc = 'assets/img/**/*',
+    imageDist = 'public/img',
+    jsSrc = 'assets/js/**/*',
+    jsDist = 'public/js';
 
-  // { image optimizer }
-  var imageFiles = './assets/img/**/*';
-  var imageDist = './public/img';
-  gulp.src(imageFiles)
-        .pipe(imagemin({ cache: true }))
-        .pipe(gulp.dest(imageDist))
-        .pipe(wait(100))
-        .pipe(livereload(server));
-
-  // { html }
-  var includes = './assets/html/**/*.html';
-  var includesDist = './public/';
-
-  gulp.src(includes)
-    .pipe(include())
-    .pipe(gulp.dest(includesDist))
-    .pipe(wait(100))
-    .pipe(livereload(server));
-
-  // { sass }
-  var sassFiles = './assets/sass/style.scss';
-  var sassDist = './public/css';
-
-  gulp.src(sassFiles)
-      .pipe(concat('style.min.scss'))
-      .pipe(sass({outputStyle: 'compressed'}))
-      .pipe(gulp.dest('./public/css'))
-      .pipe(wait(100))
-      .pipe(livereload(server));
-});
-
-gulp.task('lr-server', function() {  
-  server.listen(35729, function(err) {
-    if(err) return console.log(err);
-  })
-});
-
-
-// The default task (called when you run `gulp`)
-gulp.task('default', function() {
-  gulp.run('build', 'lr-server');
-
-  // Watch files and run tasks if they change
-  gulp.watch('./assets/**/*', function() {
-    var date = new Date(), hour = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds(),
-        buildTime = hour + ':' + minutes + ':' + seconds;
-
-    gulp.run('build', function() {
-      gutil.log(gutil.colors.blue('------------- Built! -------------'), gutil.colors.green('( Last time -', buildTime, ')'));
+// browser-sync task for starting the server.
+gulp.task('browser-sync', function() {
+    browserSync({
+        server: {
+            baseDir: "public/"
+        }
     });
+});
 
-  });
+//Compile sass, autoprefix, output non-minified version, output minified version,
+//notify the OS
+gulp.task('styles', function(){
+  return gulp.src(cssSrc)
+    .pipe(sass({outputStyle: 'expanded', errLogToConsole: true}))
+    .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(gulp.dest(cssDist))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(minifyCSS())
+    .pipe(gulp.dest(cssDist))
+    .pipe(reload({stream:true}))
+    .pipe(notify({onLast: true, message: 'CSS compiled and minified!'}))
+});
+
+//Compile HTML Includes
+gulp.task('html', function(){
+  return gulp.src(htmlSrc)
+    .pipe(include())
+    .pipe(gulp.dest(htmlDist))
+    .pipe(reload({stream:true}))
+    .pipe(notify({onLast: true, message: "HTML includes compiled!"}))
+});
+
+//Optimize images
+gulp.task('images', function(){
+  return gulp.src(imageSrc)
+    .pipe(cache(imagemin()))
+    .pipe(gulp.dest(imageDist))
+    .pipe(reload({stream:true}))
+    .pipe(notify({onLast: true, message: "Images crunched!"}))
+});
+
+//JS Hint scripts, concatenate, minify, etc
+gulp.task('scripts', function(){
+  return gulp.src(jsSrc)
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish))
+    .pipe(concat('scripts.js'))
+    .pipe(gulp.dest(jsDist))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest(jsDist))
+    .pipe(reload({stream:true}))
+    .pipe(notify({onLast: true, message: "JS linted, concatenated, and minfied!"}))
+});
+
+//Run the tasks listed above
+gulp.task('default', ['styles', 'html', 'scripts', 'images', 'browser-sync'], function(){
+  gulp.watch(cssSrc, ['styles']);
+  gulp.watch(incSrc, ['html']);
+  gulp.watch(htmlSrc, ['html']);
+  gulp.watch(imageSrc, ['images']);
+  gulp.watch(jsSrc, ['scripts']);
 });
