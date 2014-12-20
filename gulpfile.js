@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     imagemin = require('gulp-imagemin'),
     include = require('gulp-include'),
+    minifyHtml = require('gulp-minify-html'),
     rename = require('gulp-rename'),
     cache = require('gulp-cache'),
     wait = require('gulp-wait'),
@@ -20,7 +21,7 @@ var cssSrc = 'assets/sass/**/*.scss',
     cssDist = 'public/css',
     incSrc = 'assets/inc/**/*.inc',
     htmlSrc = 'assets/html/**/*.html',
-    htmlDist = 'dist',
+    htmlDist = 'public',
     imageSrc = 'assets/img/**/*',
     imageDist = 'public/img',
     jsSrc = 'assets/js/**/*',
@@ -53,6 +54,7 @@ gulp.task('styles', function(){
 gulp.task('html', function(){
   return gulp.src(htmlSrc)
     .pipe(include())
+    .pipe(minifyHtml({comments:true,spare:true}))
     .pipe(gulp.dest(htmlDist))
     .pipe(reload({stream:true}))
     .pipe(notify({onLast: true, message: "HTML includes compiled!"}))
