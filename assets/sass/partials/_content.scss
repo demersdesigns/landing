@@ -1,13 +1,11 @@
 //Main content stylesheet
-html, body {
-  height: 100%;
-  min-height: 100%;
-}
+html, body { min-height: 100%; }
 
 body {
   color: #222;
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: .8125em;
+  border-left: 20px solid $darkBlue;
 
   @media all and (min-width: 500px) { font-size: 1em; }
 }
@@ -16,9 +14,9 @@ body {
 	width: 90%;
   max-width: 50em;
   display: block;
+  border-top: 1px solid  $darkBlue;
   @include centered;
   @include clearfix;
-  border-top: 1px solid  $lightBlue;
 
   .hero & {
     border-top: 0;
@@ -36,10 +34,9 @@ body {
 
 .profile{
   width: 100%;
-  margin-top: 1em;
   display: block;
   height: 30em;
-  background: url(../img/profile2sm.jpg) center top no-repeat;
+  background: url(../img/profile2sm.jpg) center 30px no-repeat;
 
   @media all and (min-width: 500px) {
     height: 25em;
@@ -47,7 +44,7 @@ body {
 
   @media all and (min-width: 700px) {
     height: 30em;
-    background: url(../img/profile2.jpg) center top no-repeat;
+    background: url(../img/profile2.jpg) center 20px no-repeat;
   }
 }
 
@@ -118,7 +115,7 @@ a {
   a {
     padding: .75em 1em;
     display: block;
-    border: 1px solid $lightBlue;
+    border: 1px solid $darkBlue;
     border-radius: 5px;
     text-decoration: none;
     @include transition-property (background);
@@ -189,86 +186,4 @@ a {
 	content: "\65";
   margin-right: 5px;
   font-family: 'icon';
-}
-
-/*
-==============================================
-bigEntrance
-==============================================
-H/T http://www.justinaguilar.com/animations/
-*/
-
-.bigEntrance {
-	animation-name: bigEntrance;
-	-webkit-animation-name: bigEntrance;
-
-	animation-duration: 1.6s;
-	-webkit-animation-duration: 1.6s;
-
-	animation-timing-function: ease-out;
-	-webkit-animation-timing-function: ease-out;
-
-	visibility: visible !important;
-}
-
-@keyframes bigEntrance {
-	0% {
-		transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%);
-		opacity: 0.2;
-	}
-	30% {
-		transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%);
-		opacity: 1;
-	}
-	45% {
-		transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	60% {
-		transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	75% {
-		transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	90% {
-		transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	100% {
-		transform: scale(1) rotate(0deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-}
-
-@-webkit-keyframes bigEntrance {
-	0% {
-		-webkit-transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%);
-		opacity: 0.2;
-	}
-	30% {
-		-webkit-transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%);
-		opacity: 1;
-	}
-	45% {
-		-webkit-transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	60% {
-		-webkit-transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	75% {
-		-webkit-transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	90% {
-		-webkit-transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-	100% {
-		-webkit-transform: scale(1) rotate(0deg) translateX(0%) translateY(0%);
-		opacity: 1;
-	}
-}
+  }
