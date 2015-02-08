@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en" class="no-js">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,7 @@
 
 
     <link rel="shortcut icon" href="./favicon.ico"/>
-    <link rel="stylesheet prefetch" href="http://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link prefetch href='http://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="./css/style.min.css">
     <script src="./js/vendor/modernizr-2.7.1.min.js"></script>
     <script>
