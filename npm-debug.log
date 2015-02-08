@@ -1,0 +1,169 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'gulpif',
+1 verbose cli   'yargs',
+1 verbose cli   '--save-dev' ]
+2 info using npm@2.1.11
+3 info using node@v0.10.33
+4 verbose node symlink /usr/local/bin/node
+5 warn package.json baseplate@0.1.0 No description
+6 warn package.json baseplate@0.1.0 No repository field.
+7 silly cache add args [ 'gulpif', null ]
+8 verbose cache add spec gulpif
+9 silly cache add args [ 'yargs', null ]
+10 verbose cache add spec yargs
+11 silly cache add parsed spec { raw: 'gulpif',
+11 silly cache add   scope: null,
+11 silly cache add   name: 'gulpif',
+11 silly cache add   rawSpec: '',
+11 silly cache add   spec: '*',
+11 silly cache add   type: 'range' }
+12 verbose addNamed gulpif@*
+13 silly addNamed semver.valid null
+14 silly addNamed semver.validRange *
+15 silly addNameRange { name: 'gulpif', range: '*', hasData: false }
+16 silly mapToRegistry name gulpif
+17 silly mapToRegistry using default registry
+18 silly mapToRegistry registry https://registry.npmjs.org/
+19 silly mapToRegistry uri https://registry.npmjs.org/gulpif
+20 verbose addNameRange registry:https://registry.npmjs.org/gulpif not in flight; fetching
+21 silly cache add parsed spec { raw: 'yargs',
+21 silly cache add   scope: null,
+21 silly cache add   name: 'yargs',
+21 silly cache add   rawSpec: '',
+21 silly cache add   spec: '*',
+21 silly cache add   type: 'range' }
+22 verbose addNamed yargs@*
+23 silly addNamed semver.valid null
+24 silly addNamed semver.validRange *
+25 silly addNameRange { name: 'yargs', range: '*', hasData: false }
+26 silly mapToRegistry name yargs
+27 silly mapToRegistry using default registry
+28 silly mapToRegistry registry https://registry.npmjs.org/
+29 silly mapToRegistry uri https://registry.npmjs.org/yargs
+30 verbose addNameRange registry:https://registry.npmjs.org/yargs not in flight; fetching
+31 verbose request uri https://registry.npmjs.org/gulpif
+32 verbose request no auth needed
+33 info attempt registry request try #1 at 16:05:13
+34 verbose request id 1da04114e615b97d
+35 http request GET https://registry.npmjs.org/gulpif
+36 verbose request uri https://registry.npmjs.org/yargs
+37 verbose request no auth needed
+38 info attempt registry request try #1 at 16:05:13
+39 verbose etag "5P44LOHYVWRSUIQDGMMWPVFDW"
+40 http request GET https://registry.npmjs.org/yargs
+41 http 304 https://registry.npmjs.org/yargs
+42 silly get cb [ 304,
+42 silly get   { date: 'Sun, 21 Dec 2014 21:05:13 GMT',
+42 silly get     server: 'Apache',
+42 silly get     via: '1.1 varnish',
+42 silly get     'last-modified': 'Sun, 21 Dec 2014 21:05:13 GMT',
+42 silly get     'cache-control': 'max-age=60',
+42 silly get     etag: '"5P44LOHYVWRSUIQDGMMWPVFDW"',
+42 silly get     age: '44',
+42 silly get     'x-served-by': 'cache-iad2130-IAD',
+42 silly get     'x-cache': 'HIT',
+42 silly get     'x-cache-hits': '1',
+42 silly get     'x-timer': 'S1419195913.384902,VS0,VE0',
+42 silly get     vary: 'Accept',
+42 silly get     'content-length': '0',
+42 silly get     'keep-alive': 'timeout=10, max=50',
+42 silly get     connection: 'Keep-Alive' } ]
+43 verbose etag https://registry.npmjs.org/yargs from cache
+44 silly addNameRange number 2 { name: 'yargs', range: '*', hasData: true }
+45 silly addNameRange versions [ 'yargs',
+45 silly addNameRange   [ '1.0.0',
+45 silly addNameRange     '1.0.1',
+45 silly addNameRange     '1.0.3',
+45 silly addNameRange     '1.0.4',
+45 silly addNameRange     '1.0.5',
+45 silly addNameRange     '1.0.6',
+45 silly addNameRange     '1.0.7',
+45 silly addNameRange     '1.0.8',
+45 silly addNameRange     '1.0.9',
+45 silly addNameRange     '1.0.10',
+45 silly addNameRange     '1.0.11',
+45 silly addNameRange     '1.0.12',
+45 silly addNameRange     '1.0.13',
+45 silly addNameRange     '1.0.15',
+45 silly addNameRange     '1.1.0',
+45 silly addNameRange     '1.1.1',
+45 silly addNameRange     '1.1.2',
+45 silly addNameRange     '1.1.3',
+45 silly addNameRange     '1.2.0',
+45 silly addNameRange     '1.2.1',
+45 silly addNameRange     '1.2.2',
+45 silly addNameRange     '1.2.3',
+45 silly addNameRange     '1.2.4',
+45 silly addNameRange     '1.2.5',
+45 silly addNameRange     '1.2.6',
+45 silly addNameRange     '1.3.0',
+45 silly addNameRange     '1.3.1',
+45 silly addNameRange     '1.3.2',
+45 silly addNameRange     '1.3.3' ] ]
+46 verbose addNamed yargs@1.3.3
+47 silly addNamed semver.valid 1.3.3
+48 silly addNamed semver.validRange 1.3.3
+49 silly cache afterAdd yargs@1.3.3
+50 verbose afterAdd /Users/pauldemers/.npm/yargs/1.3.3/package/package.json not in flight; writing
+51 verbose afterAdd /Users/pauldemers/.npm/yargs/1.3.3/package/package.json written
+52 http 404 https://registry.npmjs.org/gulpif
+53 verbose headers { date: 'Sun, 21 Dec 2014 21:05:13 GMT',
+53 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+53 verbose headers   'content-type': 'application/json',
+53 verbose headers   'cache-control': 'max-age=0',
+53 verbose headers   'content-length': '52',
+53 verbose headers   'accept-ranges': 'bytes',
+53 verbose headers   via: '1.1 varnish',
+53 verbose headers   age: '0',
+53 verbose headers   'x-served-by': 'cache-iad2133-IAD',
+53 verbose headers   'x-cache': 'MISS',
+53 verbose headers   'x-cache-hits': '0',
+53 verbose headers   'x-timer': 'S1419195913.385226,VS0,VE353',
+53 verbose headers   'keep-alive': 'timeout=10, max=50',
+53 verbose headers   connection: 'Keep-Alive' }
+54 silly get cb [ 404,
+54 silly get   { date: 'Sun, 21 Dec 2014 21:05:13 GMT',
+54 silly get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+54 silly get     'content-type': 'application/json',
+54 silly get     'cache-control': 'max-age=0',
+54 silly get     'content-length': '52',
+54 silly get     'accept-ranges': 'bytes',
+54 silly get     via: '1.1 varnish',
+54 silly get     age: '0',
+54 silly get     'x-served-by': 'cache-iad2133-IAD',
+54 silly get     'x-cache': 'MISS',
+54 silly get     'x-cache-hits': '0',
+54 silly get     'x-timer': 'S1419195913.385226,VS0,VE353',
+54 silly get     'keep-alive': 'timeout=10, max=50',
+54 silly get     connection: 'Keep-Alive' } ]
+55 verbose stack Error: 404 Not Found: gulpif
+55 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:239:14)
+55 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+55 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:372:22)
+55 verbose stack     at Request.emit (events.js:98:17)
+55 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1317:14)
+55 verbose stack     at Request.emit (events.js:117:20)
+55 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1265:12)
+55 verbose stack     at IncomingMessage.emit (events.js:117:20)
+55 verbose stack     at _stream_readable.js:943:16
+55 verbose stack     at process._tickCallback (node.js:419:13)
+56 verbose statusCode 404
+57 verbose pkgid gulpif
+58 verbose cwd /Volumes/Docs/Users/demersdesigns/Documents/github/landing
+59 error Darwin 14.0.0
+60 error argv "node" "/usr/local/bin/npm" "install" "gulpif" "yargs" "--save-dev"
+61 error node v0.10.33
+62 error npm  v2.1.11
+63 error code E404
+64 error 404 Not Found: gulpif
+64 error 404
+64 error 404 'gulpif' is not in the npm registry.
+64 error 404 You should bug the author to publish it (or use the name yourself!)
+64 error 404 It was specified as a dependency of 'baseplate'
+64 error 404
+64 error 404 Note that you can also install from a
+64 error 404 tarball, folder, http url, or git url.
+65 verbose exit [ 1, true ]
