@@ -3,8 +3,17 @@
   <!-- <div class="profileWrap bigEntrance">
     <img src="img/hs.jpg" />
   </div> -->
-  <div class="profile"></div>
-  <div class="hero">
+  <div class="profile">
+    <div class="container">
+      <picture class="hero">
+        <!--[if IE 9]><video style="display: none;"><![endif]-->
+        <source srcset="img/hero.jpg, img/hero@2x.jpg 2x" media="(min-width: 700px)">
+        <!--[if IE 9]></video><![endif]-->
+        <img srcset="img/hero_sm.jpg, img/hero_sm@2x.jpg 2x" alt="A giant stone face at The Bayon temple in Angkor Thom, Cambodia">
+      </picture>
+    </div>
+  </div>
+  <div class="callout">
     <div class="container">
       <h1>Oh, hey there. I’m Paul Demers, <span>a Boston-based purveyor of fine designery for the Internet.</h1>
     </div>
