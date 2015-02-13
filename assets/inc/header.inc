@@ -16,8 +16,8 @@
 
     <link rel="shortcut icon" href="./favicon.ico"/>
     <link prefetch href='http://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="./css/style.min.css">
-    <script src="./js/vendor/modernizr-2.7.1.min.js"></script>
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script async src="/js/vendor/modernizr_picturefill.js"></script>
     <script>
   	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
