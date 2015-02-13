@@ -2,216 +2,188 @@
 html, body { min-height: 100%; }
 
 body {
-    color: #222;
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: .8125em;
-    position: relative;
+  color: #222;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: .8125em;
+  border-left: 20px solid $darkBlue;
 
-    @media all and (min-width: 500px) {
-        font-size: 1em;
-    }
-
-    &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-left: 20px solid $darkBlue;
-        min-height: 100%;
-        z-index: 1000;
-    }
+  @media all and (min-width: 500px) { font-size: 1em; }
 }
 
 .container {
-    width: 90%;
-    max-width: 50em;
-    display: block;
-    border-top: 1px solid $darkBlue;
+	width: 90%;
+  max-width: 50em;
+  display: block;
+  border-top: 1px solid  $darkBlue;
+  @include centered;
+  @include clearfix;
+
+  .hero & {
+    border-top: 0;
+    padding: 0;
+  }
+}
+
+@media all and (min-width: 950px) {
+	.container {
     padding: 1em 0;
-    @include centered;
-    margin-left: 2.25em;
-    @include clearfix;
 
-    @media all and (min-width: 500px) {
-        margin-left: auto;
-    }
-
-    .callout & {
-        border-top: 0;
-        padding: 0;
-    }
+    .details &{ padding: 1em 0em; }
+  }
 }
 
-.profile {
-    width: 100%;
-    display: block;
+.profile{
+  width: 100%;
+  display: block;
+  height: 30em;
+  background: url(../img/profile2sm.jpg) center 30px no-repeat;
 
-    .container {
-        width: 100%;
-        position: relative;
-        margin-left: auto;
-        padding-top: 0;
+  @media all and (min-width: 500px) {
+    height: 25em;
+  }
 
-        @media all and (min-width: 700px) {
-            padding: 2em 0;
-        }
-    }
+  @media all and (min-width: 700px) {
+    height: 30em;
+    background: url(../img/profile2.jpg) center 20px no-repeat;
+  }
 }
-
-.hero img { max-width: 100%; }
 
 h1, h2, h3 {
-    font-weight: 700;
-    font-family: 'Roboto Condensed', sans-serif;
-    color: $darkBlue;
+  font-weight: 700;
+  font-family: 'Roboto Condensed', sans-serif;
+  color: $darkBlue;
 }
 
-h1 {
-    .callout & {
-        font-size: 3.9em;
-        margin-bottom: .5em;
-        margin-top: 0;
-        line-height: 1;
+h1{
+  .hero &{
+    font-size: 3.35em;
+    margin-bottom: .5em;
+    margin-top: 0;
 
-        span {
-            display: block;
-            font-size: .45em;
-            line-height: 1.25;
-            font-weight: 400;
-            font-style: italic;
-            color: #666;
-            margin-top: .5em;
-        }
+    span{
+      display: block;
+      font-size: .5em;
+      font-weight: 400;
+      font-style: italic;
+      color: #666;
     }
+  }
 }
 
 h2 { margin: .666666667em 0; }
 
 p {
-    font-size: 1.15em;
-    line-height: 1.7;
+  font-size: 1.15em;
+  line-height: 1.7;
 }
 
 a {
-    color: $darkBlue;
-    @include transition-property (color);
-    @include transition-duration(.25s);
+  color: $darkBlue;
+  @include transition-property (color);
+  @include transition-duration(.25s);
 
-    &:hover {
-        text-decoration: none;
-    }
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .contact {
-    ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0 auto 1em;
-   }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto 1em;
+  }
 
-   li {
-        margin: 0;
-        padding: 0;
-        display: block;
-        margin: 0 2% 2%;
-        font-size: 1em;
-        font-weight: bold;
+  li {
+    margin: 0;
+    padding: 0;
+    display: block;
+    margin: 0 2% 2%;
+    font-size: 1em;
+    font-weight: bold;
 
-        @media all and (min-width: 600px) {
-            display: inline-block;
-            width: 49%;
-            margin: 0 1% 2% 0;
-            text-align: left;
+    @media all and (min-width: 600px) {
+			display: inline-block;
+    	width: 49%;
+    	margin: 0 1% 2% 0;
+    	text-align: left;
 
-            &:nth-child(2n) {
-                margin-right: 0;
-            }
-        }
+    	&:nth-child(2n) { margin-right: 0; }
     }
+  }
 
-    a {
-        padding: .75em 1em;
-        display: block;
-        border: 1px solid $darkBlue;
-        border-radius: 5px;
-        text-decoration: none;
-        @include transition-property (background);
-        @include transition-duration(.25s);
+  a {
+    padding: .75em 1em;
+    display: block;
+    border: 1px solid $darkBlue;
+    border-radius: 5px;
+    text-decoration: none;
+    @include transition-property (background);
+		@include transition-duration(.25s);
 
-        @media all and (min-width: 600px) {
-            padding: .5em 1em;
-        }
+    @media all and (min-width: 600px) {
+      padding: .5em 1em;
     }
+  }
 }
 
 .details {
-    .details__block {
-        vertical-align: top;
-        padding: 0 0 .625em;
-
-        img {
-            width: 1.25em;
-            margin-top: -.15em;
-            margin-right: .25em;
-        }
-
-        h3 { margin: 0; }
-
-        p { margin: .666666667em 0; }
+  .details__block {
+      vertical-align: top;
+      padding: 0 0 .625em;
+    img {
+        width: 1.25em;
+        margin-top: -.15em;
+        margin-right: .25em;
     }
+    h3 { margin: 0; }
+    p{ margin: .666666667em 0; }
+  }
 }
 
 @font-face {
-    font-family: 'icon';
-    src: url('../fonts/icon.eot');
-    src: url('../fonts/icon.eot#iefix') format('embedded-opentype'), url('../fonts/icon.ttf') format('truetype'), url('../fonts/icon.woff') format('woff'), url('../fonts/icon.svg#adhd') format('svg');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'icon';	src:url('../fonts/icon.eot');	src:url('../fonts/icon.eot#iefix') format('embedded-opentype'),	url('../fonts/icon.ttf') format('truetype'),	url('../fonts/icon.woff') format('woff'),	url('../fonts/icon.svg#adhd') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 [class^='icon'] {
-    font-family: 'adhd';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
+	font-family: 'adhd';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
 }
-
 .icon-twitter:before {
-    margin-right: 5px;
-    font-family: 'icon';
-    content: "\74";
+  margin-right: 5px;
+  font-family: 'icon';
+	content: "\74";
 }
-
 .icon-github:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\67";
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\67";
 }
-
 .icon-linkedin:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\6c";
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\6c";
 }
-
 .icon-dribbble:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\64";
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\64";
 }
-
 .icon-behance:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\62";
+  font-family: 'icon';
+  margin-right: 5px;
+	content: "\62";
 }
-
 .icon-email:before {
-    content: "\65";
-    margin-right: 5px;
-    font-family: 'icon';
-}
+	content: "\65";
+  margin-right: 5px;
+  font-family: 'icon';
+  }
