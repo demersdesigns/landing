@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     autoprefix = require('gulp-autoprefixer'),
+    uncss = require('gulp-uncss'),
     minifyCSS = require('gulp-minify-css'),
     stylish = require('jshint-stylish'),
     jshint = require('gulp-jshint'),
@@ -42,6 +43,7 @@ gulp.task('styles', function(){
   return gulp.src(cssSrc)
     .pipe(sass({outputStyle: 'expanded', errLogToConsole: true}))
     .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(uncss({ html: ['public/index.html'] }))
     .pipe(gulp.dest(cssDist))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifyCSS())
