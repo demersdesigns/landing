@@ -21,7 +21,7 @@ var gulp        = require('gulp'),
 //** Path Variables **//
 var rootPath    = 'target/development/';
 var distPath    = 'target/production/';
-var incSource   = 'assets/html/**/*.inc';
+var incSource   = 'assets/inc/**/*.inc';
 var htmlSource  = 'assets/html/**/*.html';
 var sassSource  = 'assets/sass/**/*.scss';
 var jsSource    = 'assets/js/**/*.js';
