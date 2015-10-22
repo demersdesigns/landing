@@ -73,6 +73,11 @@ gulp.task('img', function() {
     .pipe(gulpif(argv.notify, notify({onLast: true, message: 'Images crunched!'})));
 });
 
+gulp.task('favicon', function() {
+  return gulp.src('assets/img/favicon.ico')
+    .pipe(gulp.dest(rootPath));
+});
+
 //Fire Up a Dev Server
 gulp.task('server:dev', function() {
     browserSync({
@@ -83,7 +88,7 @@ gulp.task('server:dev', function() {
 });
 
 //Task That Runs the Processes Listed Above - Use this task for deployment to dev env
-gulp.task('devBuild', ['htmlIncludes', 'sass', 'js', 'copyJquery', 'img']);
+gulp.task('devBuild', ['htmlIncludes', 'sass', 'js', 'copyJquery', 'img', 'favicon']);
 
 //Run the devBuild task and then fire up a local server
 //Use the --notify flag to show messages on task completion
@@ -125,6 +130,12 @@ gulp.task('copyImages', function() {
   .pipe(gulp.dest(distPath + 'img'));
 });
 
+//Copy Images to Dist
+gulp.task('copyFavicon', function() {
+ return gulp.src(rootPath + 'img/favicon.ico')
+  .pipe(gulp.dest(distPath));
+});
+
 //Fire Up a Prod Server
 gulp.task('server:prod', function() {
     browserSync({
@@ -135,7 +146,7 @@ gulp.task('server:prod', function() {
 });
 
 //Copy files from dev, combine scripts, combine css
-gulp.task('preProd', ['copyHtml', 'useMin', 'copyImages']);
+gulp.task('preProd', ['copyHtml', 'useMin', 'copyImages', 'copyFavicon']);
 
 //Make sure the clean task, devBuild, and preProd tasks fire in the correct order
 gulp.task('prodBuild', function(){
