@@ -13,7 +13,7 @@
     <meta property="og:site_name" content="Paul Demers - A Boston Based Purveyor of Fine Designery"/>
     <link rel="shortcut icon" href="./favicon.ico"/>
     <link prefetch href='http://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/css/style.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script async src="/js/vendor/modernizr_picturefill.js"></script>
   </head>
 <body>
