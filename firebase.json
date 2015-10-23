@@ -1,0 +1,9 @@
+{
+  "firebase": "demersdesigns",
+  "public": "target/production",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
