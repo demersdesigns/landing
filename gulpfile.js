@@ -1,95 +1,159 @@
-var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    autoprefix = require('gulp-autoprefixer'),
-    uncss = require('gulp-uncss'),
-    minifyCSS = require('gulp-minify-css'),
-    stylish = require('jshint-stylish'),
-    jshint = require('gulp-jshint'),
-    uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),
-    imagemin = require('gulp-imagemin'),
-    include = require('gulp-include'),
-    minifyHtml = require('gulp-minify-html'),
-    rename = require('gulp-rename'),
-    cache = require('gulp-cache'),
-    wait = require('gulp-wait'),
-    notify = require('gulp-notify'),
+//** NPM Dependencies **//
+var gulp        = require('gulp'),
+    del         = require('del'),
+    sass        = require('gulp-sass'),
+    autoprefix  = require('gulp-autoprefixer'),
+    minifyCSS   = require('gulp-minify-css'),
+    stylish     = require('jshint-stylish'),
+    jshint      = require('gulp-jshint'),
+    uglify      = require('gulp-uglify'),
+    concat      = require('gulp-concat'),
+    usemin      =  require('gulp-usemin'),
+    imagemin    = require('gulp-imagemin'),
+    include     = require('gulp-include'),
+    notify      = require('gulp-notify'),
     browserSync = require('browser-sync'),
-    reload      = browserSync.reload;
+    reload      = browserSync.reload,
+    runSequence = require('run-sequence'),
+    argv        = require('yargs').argv,
+    gulpif      = require('gulp-if');
 
-//Vars for file locations and output destinations
-var cssSrc = 'assets/sass/**/*.scss',
-    cssDist = 'public/css',
-    incSrc = 'assets/inc/**/*.inc',
-    htmlSrc = 'assets/html/**/*.html',
-    htmlDist = 'public',
-    imageSrc = 'assets/img/**/*',
-    imageDist = 'public/img',
-    jsSrc = 'assets/js/**/*',
-    jsDist = 'public/js';
+//** Path Variables **//
+var rootPath    = 'target/development/';
+var distPath    = 'target/production/';
+var incSource   = 'assets/inc/**/*.inc';
+var htmlSource  = 'assets/html/**/*.html';
+var sassSource  = 'assets/sass/**/*.scss';
+var jsSource    = 'assets/js/**/*.js';
+var imgSource   = 'assets/img/**/*';
 
-// browser-sync task for starting the server.
-gulp.task('browser-sync', function() {
+//** Dev Task **//
+
+//Process HTML Includes
+gulp.task('htmlIncludes', function() {
+  return gulp.src(htmlSource)
+    .pipe(include())
+    .pipe(gulp.dest(rootPath))
+    .pipe(reload({stream:true}))
+    .pipe(gulpif(argv.notify, notify({onLast: true, message: "HTML includes compiled!"})));
+});
+
+//Process CSS
+gulp.task('sass', function() {
+  return gulp.src(sassSource)
+    .pipe(sass({ outputStyle: 'expanded', errLogToConsole: true }))
+    .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(gulp.dest(rootPath + 'css'))
+    .pipe(reload({stream:true}))
+    .pipe(gulpif(argv.notify, notify({onLast: true, message: 'SCSS compiled!'})));
+});
+
+//Lint JavaScript
+gulp.task('js', function() {
+  return gulp.src(jsSource)
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish))
+    .pipe(gulp.dest(rootPath + 'js'))
+    .pipe(reload({stream:true}))
+    .pipe(gulpif(argv.notify, notify({onLast: true, message: 'JS linted!'})));
+});
+
+//Copy jQuery from assets/bower_components to dev
+gulp.task('copyJquery', function() {
+  return gulp.src('assets/bower_components/jquery/dist/jquery.min.js')
+    .pipe(gulp.dest(rootPath + '/js'));
+});
+
+//Process Images
+gulp.task('img', function() {
+  return gulp.src(imgSource)
+    .pipe(imagemin())
+    .pipe(gulp.dest(rootPath + 'img'))
+    .pipe(reload({stream:true}))
+    .pipe(gulpif(argv.notify, notify({onLast: true, message: 'Images crunched!'})));
+});
+
+gulp.task('favicon', function() {
+  return gulp.src('assets/img/favicon.ico')
+    .pipe(gulp.dest(rootPath));
+});
+
+//Fire Up a Dev Server
+gulp.task('server:dev', function() {
     browserSync({
         server: {
-            baseDir: "public/"
+            baseDir: rootPath
         }
     });
 });
 
-//Compile sass, autoprefix, output non-minified version, output minified version,
-//notify the OS
-gulp.task('styles', function(){
-  return gulp.src(cssSrc)
-    .pipe(sass({outputStyle: 'expanded', errLogToConsole: true}))
-    .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(uncss({ html: ['public/index.html'] }))
-    .pipe(gulp.dest(cssDist))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(minifyCSS())
-    .pipe(gulp.dest(cssDist))
-    .pipe(reload({stream:true}))
-    .pipe(notify({onLast: true, message: 'CSS compiled and minified!'}))
+//Task That Runs the Processes Listed Above - Use this task for deployment to dev env
+gulp.task('devBuild', ['htmlIncludes', 'sass', 'js', 'copyJquery', 'img', 'favicon']);
+
+//Run the devBuild task and then fire up a local server
+//Use the --notify flag to show messages on task completion
+gulp.task('devServe', ['devBuild', 'server:dev'], function() {
+  gulp.watch(htmlSource, ['htmlIncludes']);
+  gulp.watch(incSource, ['htmlIncludes']);
+  gulp.watch(sassSource, ['sass']);
+  gulp.watch(jsSource, ['js']);
+  gulp.watch(imgSource, ['img']);
 });
 
-//Compile HTML Includes
-gulp.task('html', function(){
-  return gulp.src(htmlSrc)
-    .pipe(include())
-    .pipe(minifyHtml({comments:true,spare:true}))
-    .pipe(gulp.dest(htmlDist))
-    .pipe(reload({stream:true}))
-    .pipe(notify({onLast: true, message: "HTML includes compiled!"}))
+//** Build Task **//
+//Clear out the dist folder before doing a build
+gulp.task('clean:dist', function(cb) {
+  del([
+    'dist/*'
+  ], cb);
 });
 
-//Optimize images
-gulp.task('images', function(){
-  return gulp.src(imageSrc)
-    .pipe(cache(imagemin()))
-    .pipe(gulp.dest(imageDist))
-    .pipe(reload({stream:true}))
-    .pipe(notify({onLast: true, message: "Images crunched!"}))
+//Copy HTML
+gulp.task('copyHtml', function() {
+  return gulp.src(rootPath + '*.html')
+    .pipe(gulp.dest(distPath));
 });
 
-//JS Hint scripts, concatenate, minify, etc
-gulp.task('scripts', function(){
-  return gulp.src(jsSrc)
-    .pipe(jshint())
-    .pipe(jshint.reporter(stylish))
-    .pipe(concat('scripts.js'))
-    .pipe(gulp.dest(jsDist))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(gulp.dest(jsDist))
-    .pipe(reload({stream:true}))
-    .pipe(notify({onLast: true, message: "JS linted, concatenated, and minfied!"}))
+//Combine JS wrapped in usemin block
+gulp.task('useMin', function() {
+  return gulp.src(rootPath + '*.html')
+    .pipe(usemin({
+      js: [uglify()],
+      css: [minifyCSS(), 'concat']
+    }))
+    .pipe(gulp.dest(distPath));
 });
 
-//Run the tasks listed above
-gulp.task('default', ['styles', 'html', 'scripts', 'images', 'browser-sync'], function(){
-  gulp.watch(cssSrc, ['styles']);
-  gulp.watch(incSrc, ['html']);
-  gulp.watch(htmlSrc, ['html']);
-  gulp.watch(imageSrc, ['images']);
-  gulp.watch(jsSrc, ['scripts']);
+//Copy Images to Dist
+gulp.task('copyImages', function() {
+ return gulp.src(rootPath + 'img/*')
+  .pipe(gulp.dest(distPath + 'img'));
+});
+
+//Copy Images to Dist
+gulp.task('copyFavicon', function() {
+ return gulp.src(rootPath + 'img/favicon.ico')
+  .pipe(gulp.dest(distPath));
+});
+
+//Fire Up a Prod Server
+gulp.task('server:prod', function() {
+    browserSync({
+        server: {
+            baseDir: distPath
+        }
+    });
+});
+
+//Copy files from dev, combine scripts, combine css
+gulp.task('preProd', ['copyHtml', 'useMin', 'copyImages', 'copyFavicon']);
+
+//Make sure the clean task, devBuild, and preProd tasks fire in the correct order
+gulp.task('prodBuild', function(){
+    runSequence('clean:dist', 'devBuild', 'preProd');
+});
+
+//Run the prod tasks and then fire up a local server
+gulp.task('prodServe', function(){
+    runSequence('clean:dist', 'preProd', 'server:prod');
 });

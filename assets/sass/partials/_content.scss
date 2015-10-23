@@ -1,218 +1,147 @@
 //Main content stylesheet
-html, body { min-height: 100%; }
-
-body {
-    color: #222;
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: .8125em;
-    position: relative;
-
-    @media all and (min-width: 500px) {
-        font-size: 1em;
-    }
-
-    &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-left: 20px solid $darkBlue;
-        min-height: 100%;
-        z-index: 1000;
-    }
-}
-
 .container {
-    width: 90%;
-    max-width: 50em;
-    display: block;
-    border-top: 1px solid $darkBlue;
-    padding: 1em 0;
-    @include centered;
-    margin-left: 2.25em;
-    @include clearfix;
-
-    @media all and (min-width: 500px) {
-        margin-left: auto;
-    }
-
-    .callout & {
-        border-top: 0;
-        padding: 0;
-    }
-}
-
-.profile {
     width: 100%;
+    max-width: toRem(700);
+    margin: 0 auto;
+    color: #444;
+    font-family: 'Vollkorn', serif;
+    font-size: toRem(18);
+    line-height: toRem(35);
+}
+
+.flourish {
+    opacity: .05;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.logo {
     display: block;
-
-    .container {
-        width: 100%;
-        position: relative;
-        margin-left: auto;
-        padding-top: 0;
-        border: 0;
-
-        @media all and (min-width: 700px) {
-            padding: 2em 0;
+    margin: toRem(48) auto;
+    width: 100%;
+    max-width: toRem(70);
+    svg {
+        @include transition(transform, 1s);
+        &:hover {
+            @include transform(rotateX(180deg));
+            @include transform-style(preserve-3d);
+            @include transform-origin(center);
         }
     }
 }
 
-.hero img { max-width: 100%; }
-
-h1, h2, h3 {
-    font-weight: 700;
-    font-family: 'Roboto Condensed', sans-serif;
-    color: $darkBlue;
-}
-
-h1 {
-    .callout & {
-        font-size: 3.9em;
-        margin-bottom: .5em;
+.site-intro {
+    @include doubleRule(after);
+    .heading--primary {
+        margin-bottom: toRem(8);
+    }
+    .heading--secondary {
         margin-top: 0;
-        line-height: 1;
+    }
+}
 
-        span {
-            display: block;
-            font-size: .45em;
-            line-height: 1.25;
-            font-weight: 400;
-            font-style: italic;
-            color: #666;
-            margin-top: .5em;
+.heading {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    padding: 0 toRem(20);
+}
+
+.heading--primary,
+.heading--secondary {
+    text-transform: uppercase;
+}
+
+.heading--primary {
+    font-size: toRem(32);
+    line-height: toRem(42);
+    color: $darkBlue;
+}
+
+.heading--secondary {
+    font-size: toRem(18);
+    line-height: toRem(28);
+}
+
+.site-main {
+    p {
+        text-align: justify;
+        padding: 0 toRem(20);
+        margin-top: 0;
+    }
+    a {
+        color: $darkBlue;
+        @include linear-gradient(to bottom, transparent 85%, $darkBlue 85%);
+        background-size: toRem(10) toRem(10);
+        background-position: 0 80%;
+        background-repeat: repeat-x;
+        text-decoration: none;
+        @include transition(background, .15s);
+        &:hover {
+            background-size: 0;
+            background-position: 0 30%;
+            color: #444;
         }
     }
 }
 
-h2 { margin: .666666667em 0; }
-
-p {
-    font-size: 1.15em;
-    line-height: 1.7;
-}
-
-a {
-    color: $darkBlue;
-    @include transition-property (color);
-    @include transition-duration(.25s);
-
-    &:hover {
-        text-decoration: none;
+.site-contact {
+    padding: 0 toRem(20);
+    .heading--secondary {
+        margin-top: toRem(24);
+        font-size: toRem(16);
+        @include doubleRule(before);
     }
-}
-
-.contact {
     ul {
         list-style-type: none;
         padding: 0;
-        margin: 0 auto 1em;
-   }
-
-   li {
+        margin: 0 auto toRem(16);
+    }
+    li {
         margin: 0;
         padding: 0;
         display: block;
-        margin: 0 2% 2%;
-        font-size: 1em;
-        font-weight: bold;
-
+        margin: 0 0 toRem(24);
+        font-size: toRem(16);
         @media all and (min-width: 600px) {
             display: inline-block;
-            width: 49%;
-            margin: 0 1% 2% 0;
+            width: 47%;
+            margin: 0 5% 3% 0;
             text-align: left;
-
             &:nth-child(2n) {
                 margin-right: 0;
             }
         }
     }
-
     a {
-        padding: .75em 1em;
+        color: $darkBlue;
+        line-height: 1.2;
+        padding: toRem(12) 0 toRem(4);
         display: block;
-        border: 1px solid $darkBlue;
-        border-radius: 5px;
+        border-bottom: 1px solid $darkBlue;
         text-decoration: none;
-        @include transition-property (background);
+        @include transition-property (background, color);
         @include transition-duration(.25s);
-
-        @media all and (min-width: 600px) {
-            padding: .5em 1em;
+        .icon {
+            fill: $darkBlue;
+            height: toRem(16);
+            width: toRem(16);
+            margin-right: toRem(5);
+            margin-left: 0;
+            float: left;
+            @include transition-property (fill, margin);
+            @include transition-duration(.25s);
+        }
+        &:hover {
+            background: $darkBlue;
+            color: #fff;
+            .icon {
+                fill: #fff;
+                margin-left: toRem(10);
+            }
         }
     }
-}
-
-.details {
-    .details__block {
-        vertical-align: top;
-        padding: 0 0 .625em;
-
-        img {
-            width: 1.25em;
-            margin-top: -.15em;
-            margin-right: .25em;
-        }
-
-        h3 { margin: 0; }
-
-        p { margin: .666666667em 0; }
-    }
-}
-
-@font-face {
-    font-family: 'icon';
-    src: url('../fonts/icon.eot');
-    src: url('../fonts/icon.eot#iefix') format('embedded-opentype'), url('../fonts/icon.ttf') format('truetype'), url('../fonts/icon.woff') format('woff'), url('../fonts/icon.svg#adhd') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-[class^='icon'] {
-    font-family: 'adhd';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-}
-
-.icon-twitter:before {
-    margin-right: 5px;
-    font-family: 'icon';
-    content: "\74";
-}
-
-.icon-github:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\67";
-}
-
-.icon-linkedin:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\6c";
-}
-
-.icon-dribbble:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\64";
-}
-
-.icon-behance:before {
-    font-family: 'icon';
-    margin-right: 5px;
-    content: "\62";
-}
-
-.icon-email:before {
-    content: "\65";
-    margin-right: 5px;
-    font-family: 'icon';
 }

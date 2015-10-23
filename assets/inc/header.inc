@@ -11,9 +11,11 @@
     <meta property="og:title" content="Paul Demers - A Boston Based Purveyor of Fine Designery"/>
     <meta property="og:url" content="http://www.demersdesigns.com"/>
     <meta property="og:site_name" content="Paul Demers - A Boston Based Purveyor of Fine Designery"/>
-    <link rel="shortcut icon" href="./favicon.ico"/>
-    <link prefetch href='http://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/css/style.min.css">
-    <script async src="/js/vendor/modernizr_picturefill.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" sizes="16x16 32x32" href="/favicon.ico">
+    <link prefetch rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans:800|Vollkorn' rel='stylesheet' type='text/css'>
+    <!-- build:css css/style.css -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- endbuild -->
   </head>
 <body>

@@ -2,6 +2,32 @@
 $lightBlue: #00a2e0;
 $darkBlue: #254969;
 
+@function toRem($pxVal){
+  @return ($pxVal/16)+rem
+}
+
 @mixin centered{
   margin: 0 auto;
+}
+
+@mixin serif{
+  font-family: 'Vollkorn', serif;
+}
+
+@mixin sans-serif{
+  font-family: 'Open Sans', sans-serif;
+}
+
+@mixin doubleRule($position: before){
+  &:#{$position}{
+    content: '';
+    display: block;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: #ccc;
+    height: 3px;
+    width: 90%;
+    max-width: 35rem;
+    margin: 2rem auto;
+  }
 }
