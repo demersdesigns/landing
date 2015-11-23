@@ -1,13 +1,20 @@
-//Main content stylesheet
+//Main content stylesheet    
+@media all and (min-width: toRem(800)){
+    .cols--two{
+    columns: 300px 2;
+    }   
+}
+
 .container {
     width: 100%;
-    max-width: toRem(700);
+    max-width: toRem(1000);
     margin: 0 auto;
     color: #444;
     font-family: 'Vollkorn', serif;
     font-size: toRem(18);
     line-height: toRem(35);
 }
+
 
 .flourish {
     opacity: .05;
