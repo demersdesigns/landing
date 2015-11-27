@@ -1,10 +1,8 @@
 @import "partials/vars";
-@import "partials/normalize";
+@import "../../node_modules/normalize.css/normalize";
 @import "partials/html5bp";
-@import "bourbon/bourbon";
-@import "neat/neat";
-@import "partials/base";
-@import "partials/custom_fonts";
+@import "../../node_modules/bourbon/app/assets/stylesheets/_bourbon";
+@import "../../node_modules/bourbon-neat/app/assets/stylesheets/_neat";
 
 @import "partials/content";
 
