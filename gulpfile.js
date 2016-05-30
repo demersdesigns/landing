@@ -1,133 +1,168 @@
 //** NPM Dependencies **//
 var gulp        = require('gulp'),
     del         = require('del'),
-		sass        = require('gulp-sass'),
-		autoprefix  = require('gulp-autoprefixer'),
-		minifyCSS   = require('gulp-minify-css'),
-		stylish     = require('jshint-stylish'),
-		jshint      = require('gulp-jshint'),
-		uglify      = require('gulp-uglify'),
-		concat      = require('gulp-concat'),
+    include     = require('gulp-file-include'),
+    sass        = require('gulp-sass'),
+    autoprefix  = require('gulp-autoprefixer'),
+    minifyCSS   = require('gulp-clean-css'),
+    stylish     = require('jshint-stylish'),
+    jshint      = require('gulp-jshint'),
+    uglify      = require('gulp-uglify'),
+    concat      = require('gulp-concat'),
+    sourcemaps  = require('gulp-sourcemaps'),
     usemin      =  require('gulp-usemin'),
-		imagemin    = require('gulp-imagemin'),
-		include     = require('gulp-include'),
-		browserSync = require('browser-sync'),
-		reload      = browserSync.reload,
-    runSequence = require('run-sequence');
+    imagemin    = require('gulp-imagemin'),
+    htmlmin = require('gulp-htmlmin'),
+    runSequence = require('run-sequence'),
+    plumber     = require('gulp-plumber'),
+    browserSync = require('browser-sync'),
+    reload      = browserSync.reload;
+   //yargs       = require('yargs').argv;
 
 //** Path Variables **//
-var rootPath    = 'target/'
-var incSource   = 'assets/html/**/*.inc';
-var htmlSource  = 'assets/html/**/*.html';
-var sassSource  = 'assets/sass/**/*.scss';
-var jsSource    = 'assets/js/**/*.js';
-var imgSource   = 'assets/img/**/*';
+var rootPath    = 'app/',
+    tmpPath = '.tmp/',
+    distPath = 'public/',
+    htmlSource = 'app/html/*.html',
+    htmlIncludesSource = 'app/html/**/*.html',
+    stylesSource = 'app/styles/**/*.scss',
+    scriptsSource = 'app/scripts/**/*.js',
+    imagesSource = 'app/images/**/*',
+    tmpImagesSource = '.tmp/images/**/*',
+    fontsSource = 'app/fonts/**/*';
 
 //** Dev Task **//
-
-//Process HTML Includes
-gulp.task('htmlIncludes', function() {
-  return gulp.src(htmlSource)
-    .pipe(include())
-    .pipe(gulp.dest(rootPath))
-    .pipe(reload({stream:true}));
+//Compile HTML includes and copy to tmp folder
+gulp.task('html', function() {
+    return gulp.src(htmlSource)
+        .pipe(plumber())
+        .pipe(include({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(gulp.dest(tmpPath))
+        .pipe(reload({ stream: true }));
 });
 
-//Process CSS
-gulp.task('sass', function() {
-  return gulp.src(sassSource)
-    .pipe(sass({ outputStyle: 'expanded', errLogToConsole: true }))
-    .pipe(autoprefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest(rootPath + 'css'))
-    .pipe(reload({stream:true}));
-});
-
-//Lint JavaScript
-gulp.task('js', function() {
-  return gulp.src(jsSource)
-    .pipe(jshint())
-    .pipe(jshint.reporter(stylish))
-    .pipe(gulp.dest(rootPath + 'js'))
-    .pipe(reload({stream:true}));
+//Compile and add sourcemap to styles
+gulp.task('styles', function () {
+    return gulp.src(stylesSource)
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(sass({ outputStyle: 'compact', errLogToConsole: true }))
+        .pipe(autoprefix())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(tmpPath + '/styles'))
+        .pipe(browserSync.stream({ match: '**/*.css' }));
 });
 
 //Copy jQuery from node_modules to dev
 gulp.task('copyJquery', function() {
-  return gulp.src('node_modules/jquery/dist/jquery.min.js')
-    .pipe(gulp.dest(rootPath + '/js'));
+    return gulp.src('node_modules/jquery/dist/jquery.min.js')
+        .pipe(gulp.dest(tmpPath + '/scripts/vendor'));
 });
 
-//Process Images
-gulp.task('img', function() {
-  return gulp.src(imgSource)
-    .pipe(imagemin())
-    .pipe(gulp.dest(rootPath + 'img'))
-    .pipe(reload({stream:true}));
+//Lint scripts
+gulp.task('jshint', function () {
+    return gulp.src([scriptsSource, '!app/scripts/vendor/**/*.js'])
+        .pipe(jshint())
+        .pipe(jshint.reporter(stylish))
+        .pipe(gulp.dest(tmpPath + 'scripts'))
+        .pipe(browserSync.stream({ match: '**/*.js' }));
 });
 
-//Fire Up a Server
-gulp.task('server', function() {
+//Copy images
+gulp.task('copyImages', function() {
+    return gulp.src(imagesSource)
+        .pipe(gulp.dest(tmpPath + 'images'));
+});
+
+//Optimize Images
+//this is a separate task because we don't want to optimize
+//our svg files automatically
+gulp.task('optimizeImages', function() {
+    return gulp.src(tmpImagesSource + '*.{gif,jpg,png}')
+        .pipe(imagemin())
+        .pipe(gulp.dest(tmpPath + 'images'))
+        .pipe(reload({ stream: true }));
+});
+
+//Copy images to tmp folder then, optimize
+gulp.task('images', function(cb) {
+    runSequence('copyImages', 'optimizeImages', cb);
+});
+
+//Fire up a dev server
+gulp.task('dev:serve', function() {
     browserSync({
         server: {
-            baseDir: rootPath
+            baseDir: [rootPath, tmpPath]
         }
     });
 });
 
-//Task That Runs the Processes Listed Above - Use this task for deployment to dev env
-gulp.task('devBuild', ['htmlIncludes', 'sass', 'js', 'copyJquery', 'img']);
-
-//Run the devBuild task and then fire up a local server
-//Use the --notify flag to show messages on task completion
-gulp.task('devServe', ['devBuild', 'server'], function() {
-  gulp.watch(htmlSource, ['htmlIncludes']);
-  gulp.watch(incSource, ['htmlIncludes']);
-  gulp.watch(sassSource, ['sass']);
-  gulp.watch(jsSource, ['js']);
-  gulp.watch(imgSource, ['img']);
+//Runs the dev tasks listed above
+gulp.task('dev:build', function(cb) {
+    runSequence(['html', 'styles', 'copyJquery', 'jshint', 'images'], cb);
 });
 
-//** Build Task **//
-//Clear out the target folder before doing a build
-gulp.task('clean:target', function(cb) {
-  del([
-    'target/*'
-  ], cb);
+//Run the dev:build task, fire up a local server, and watch for changes
+gulp.task('dev', ['dev:build', 'dev:serve'], function () {
+    gulp.watch([htmlSource, htmlIncludesSource], ['html']);
+    gulp.watch(stylesSource, ['styles']);
+    gulp.watch(scriptsSource, ['jshint']);
+    gulp.watch(imagesSource, ['copyImages']);
 });
 
-//Copy HTML
-gulp.task('copyHtml', function() {
-  return gulp.src(rootPath + '*.html')
-    .pipe(gulp.dest(rootPath));
+//** Production Tasks **//
+
+//Clear out the dist folder before doing a build
+gulp.task('prod:clean', function () {
+    return del.sync(
+        ['public/**', '!public']
+    );
 });
 
-//Combine JS wrapped in usemin block
-gulp.task('useMin', function() {
-  return gulp.src(rootPath + '*.html')
-    .pipe(usemin({
-      js: [uglify()],
-      css: [minifyCSS(), 'concat']
-    }))
-    .pipe(gulp.dest(rootPath));
+//Minify and add html to dist
+gulp.task('prod:html', function() {
+    return gulp.src(tmpPath + '*.html')
+        .pipe(gulp.dest(distPath));
 });
 
-//Clear out files that are combined by the useMin process
-gulp.task('cleanupUseMin', function(cb) {
-  del([
-    'target/js/**/*.js', '!target/js/scripts.js'
-  ], cb);
+//Combine scripts and css wrapped in usemin block
+gulp.task('prod:useMin', function () {
+    return gulp.src(tmpPath + '*.html')
+        .pipe(usemin({
+            js: [sourcemaps.init(), uglify(), sourcemaps.write()],
+            css: [minifyCSS(), 'concat']
+        }))
+        .pipe(gulp.dest(distPath));
 });
 
-//Copy Images to Dist
-gulp.task('copyImages', function() {
- return gulp.src(rootPath + 'img/*')
-  .pipe(gulp.dest(rootPath + 'img'));
+//Process images
+gulp.task('prod:images', function() {
+    return gulp.src(tmpImagesSource)
+        .pipe(gulp.dest(distPath + 'images'));
 });
 
-//Copy files from dev, combine scripts, combine css
-gulp.task('preProd', ['copyHtml', 'useMin', 'copyImages']);
+//Process fonts
+gulp.task('prod:fonts', function() {
+    return gulp.src(fontsSource)
+        .pipe(gulp.dest(distPath + 'fonts'));
+});
 
-//Make sure the clean task, devBuild, and preProd tasks fire in the correct order
-gulp.task('prodBuild', function(){
-    runSequence('clean:target', 'devBuild', 'preProd', 'cleanupUseMin');
+
+//create a prod task that runs devbuild then runs the other prod tasks above
+gulp.task('prod', function(cb) {
+    runSequence('prod:clean', 'dev:build', ['prod:useMin', 'prod:html', 'prod:images', 'prod:fonts'], cb);
+});
+
+//Fire up a prod server to make sure nothing is broken in the prod code
+gulp.task('prod:serve', function () {
+    browserSync({
+        server: {
+            baseDir: distPath
+        }
+    });
 });

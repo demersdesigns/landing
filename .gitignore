@@ -1,3 +1,6 @@
-/node_modules
-/assets/bower_components
-/target
+npm-debug.log
+.sass-cache
+node_modules
+public
+.tmp
+.idea
