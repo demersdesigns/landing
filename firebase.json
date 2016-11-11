@@ -1,6 +1,7 @@
 {
-  "firebase": "demersdesigns",
-  "public": "public",
+  "hosting": {
+    "public": "public"
+  },
   "ignore": [
     "firebase.json",
     "**/.*",
